@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: agent-configmap
+  namespace: cybericebox
+data:
+  labsSubnet: "10.128.0.0/9"
+  pg-endpoint: "ep-floral-rain-85620272.eu-central-1.aws.neon.tech"
+  pg-username: "volodymyr"
+  pg-password: "gKJ6p3eWUZYk"
+  pg-dbName: "cybericebox"
+  gprc-authKey: "123"
+  gprc-signKey: "124"
