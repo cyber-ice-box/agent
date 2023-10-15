@@ -1,0 +1,32 @@
+apiVersion: v1
+automountServiceAccountToken: true
+kind: ServiceAccount
+metadata:
+  name: leaderelection-sa
+  namespace: cybericebox
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: leaderelection-role
+  namespace: cybericebox
+rules:
+  - apiGroups: [ "", "core", "apps", "projectcalico.org" ]
+    resources:
+      - '*'
+    verbs:
+      - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: leaderelection-rolebinding
+  namespace: cybericebox
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: leaderelection-role
+subjects:
+  - kind: ServiceAccount
+    name: leaderelection-sa
+    namespace: cybericebox

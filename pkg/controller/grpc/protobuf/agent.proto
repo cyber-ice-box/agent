@@ -1,0 +1,80 @@
+syntax = "proto3";
+package agent;
+option go_package = "gitlab.com/cyber-ice-box/agent/pkg/controller/grpc/protobuf";
+
+service Agent {
+  //labs
+  rpc CreateLab(CreateLabRequest) returns (CreateLabResponse) {}
+  rpc DeleteLab(DeleteLabRequest) returns (EmptyResponse) {}
+
+  rpc AddChallenges(AddChallengesRequest) returns (EmptyResponse) {}
+  rpc DeleteChallenges(DeleteChallengesRequest) returns (EmptyResponse) {}
+
+  rpc StartChallenge(ChallengeRequest) returns (EmptyResponse) {}
+  rpc StopChallenge(ChallengeRequest) returns (EmptyResponse) {}
+  rpc ResetChallenge(ChallengeRequest) returns (EmptyResponse) {}
+
+}
+// all
+message EmptyRequest {}
+
+message EmptyResponse {}
+
+// labs
+
+message CreateLabRequest {
+  string id = 1;
+  uint32 cidrBlockSize = 2;
+}
+
+message CreateLabResponse {
+  string cidr = 1;
+}
+
+message DeleteLabRequest {
+  string id = 1;
+}
+
+message AddChallengesRequest {
+  repeated string labIds = 1;
+  repeated Challenge challenges = 2;
+}
+
+message DeleteChallengesRequest {
+  repeated string labIds = 1;
+  repeated string challengeIds = 2;
+}
+
+message ChallengeRequest {
+  string labId = 1;
+  string challengeId = 2;
+}
+
+message Challenge {
+  string id = 1;
+  repeated Instance instances = 2;
+}
+
+message Instance {
+  string image = 1;
+  Resources resources = 2;
+  repeated EnvVariable envs = 3;
+  repeated Records records = 4;
+}
+
+message Resources {
+  string memory = 1;
+  string cpu = 2;
+}
+
+message EnvVariable{
+  string name = 1;
+  string value = 2;
+}
+
+message Records{
+  string type = 1;
+  string name = 2;
+  string data = 3;
+}
+
